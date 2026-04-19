@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:17
+    image: postgres:18
     restart: unless-stopped
     environment:
       POSTGRES_USER: 'npm'

@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:18
     volumes:
       - joplin_pgdata:/var/lib/postgresql/data
     restart: unless-stopped
