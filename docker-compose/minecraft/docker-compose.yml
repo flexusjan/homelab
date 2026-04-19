@@ -12,23 +12,18 @@ services:
       VERSION: "1.21.10"
       MEMORY: "2048M"
       MAX_PLAYERS: "4"
-      MOTD: "welcome to minecraft.schinken.pizza"
-      ICON: "https://nextcloud.schinken.pizza/apps/files_sharing/publicpreview/QjmMreNbGRD4pjs?file=/&fileId=2419&x=3440&y=1440&a=true&etag=554859454b24fcefe84962f6c357d2f0"
+      MOTD: ${MOTD}
+      ICON: ${ICON}
       USE_AIKAR_FLAGS: "true"
       USE_MEOWICE_FLAGS: "true"
       TZ: "Europe/Berlin"
       DIFFICULTY: "2"
       SIMULATION_DISTANCE: "24"
       VIEW_DISTANCE: "24"
-      LEVEL: "minecraft.schinken.pizza"
+      LEVEL: ${LEVEL}
       ENABLE_WHITELIST: "true"
-      WHITELIST: |-
-        flexusjan
-        thirdhell
-        janajansen
-        dimez0815
-      OPS: |-
-        flexusjan
+      WHITELIST: ${WHITELIST}
+      OPS: ${OPS}
     volumes:
       - "data:/data"
 volumes:
