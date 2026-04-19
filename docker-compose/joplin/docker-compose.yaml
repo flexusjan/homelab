@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - joplin_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+  app:
+    image: joplin/server:latest
+    depends_on:
+      - db
+    ports:
+      - "22300:22300"
+    restart: unless-stopped
+volumes:
+  joplin_pgdata:

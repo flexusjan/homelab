@@ -1,0 +1,13 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: portainer.fritz.box:3000,homepage.schinken.pizza
+    ports:
+      - 3000:3000
+    volumes:
+      - homepage_config:/app/config
+    restart: unless-stopped
+volumes:
+  homepage_config:
