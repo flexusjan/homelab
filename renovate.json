@@ -8,24 +8,42 @@
   "prConcurrentLimit": 5,
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "groupName": "docker non-major",
-      "matchUpdateTypes": ["minor", "patch", "digest"]
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ]
     },
     {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "dependencyDashboardApproval": true
     },
     {
-      "matchDatasources": ["custom.minecraft-java"],
-      "matchPackageNames": ["minecraft-java"],
+      "matchDatasources": [
+        "custom.minecraft-java"
+      ],
+      "matchPackageNames": [
+        "minecraft-java"
+      ],
       "groupName": "minecraft version",
       "dependencyDashboardApproval": true
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["itzg/minecraft-server"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "itzg/minecraft-server"
+      ],
       "versioning": "regex:^(?<compatibility>java)(?<major>\\d+)$"
     }
   ],
