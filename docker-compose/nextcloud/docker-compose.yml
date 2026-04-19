@@ -15,7 +15,7 @@ services:
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
     depends_on:
       - db
-    restart: always
+    restart: unless-stopped
   db:
     image: mariadb:latest
     container_name: nextcloud_db
@@ -26,7 +26,7 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: always
+    restart: unless-stopped
 volumes:
   nextcloud_data:
   db_data:
