@@ -43,7 +43,7 @@
       "defaultRegistryUrlTemplate": "https://launchermeta.mojang.com/mc/game/version_manifest.json",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": [{\"version\": $.latest.release}]}"
+        "{\"releases\":[{\"version\": $.latest.release}]}"
       ]
     }
   }
