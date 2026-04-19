@@ -1,0 +1,19 @@
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    pull_policy: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "7080:80/tcp"
+      - "7443:443/tcp"
+    environment:
+      TZ: 'Europe/Berlin'
+      FTLCONF_webserver_api_password: ${FTLCONF_webserver_api_password}
+      FTLCONF_dns_listeningMode: 'all'
+    volumes:
+      - 'pihole_etc:/etc/pihole'
+    restart: unless-stopped
+volumes:
+  pihole_etc:
