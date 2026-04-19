@@ -22,6 +22,11 @@
       "matchPackageNames": ["minecraft-java"],
       "groupName": "minecraft version",
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["itzg/minecraft-server"],
+      "versioning": "regex:^(?<compatibility>java)(?<major>\\d+)$"
     }
   ],
   "customManagers": [
