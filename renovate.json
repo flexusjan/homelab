@@ -1,6 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "docker:pinDigests"
+  ],
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 5,
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "groupName": "docker non-major",
+      "matchUpdateTypes": ["minor", "patch", "digest"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
   ]
 }
