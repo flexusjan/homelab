@@ -16,6 +16,36 @@
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchDatasources": ["custom.minecraft-java"],
+      "matchPackageNames": ["minecraft-java"],
+      "groupName": "minecraft version",
+      "dependencyDashboardApproval": true
     }
-  ]
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)(docker-)?compose\\.ya?ml$/",
+        "/(^|/)compose\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "mc:\\n(?:[ \\t]+.*\\n)*?[ \\t]+image:\\s*itzg/minecraft-server(?::[^@\\n]+)?(?:@sha256:[a-f0-9]+)?\\n(?:[ \\t]+.*\\n)*?[ \\t]+VERSION:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "minecraft-java",
+      "datasourceTemplate": "custom.minecraft-java",
+      "versioningTemplate": "loose"
+    }
+  ],
+  "customDatasources": {
+    "minecraft-java": {
+      "defaultRegistryUrlTemplate": "https://launchermeta.mojang.com/mc/game/version_manifest.json",
+      "format": "json",
+      "transformTemplates": [
+        "{\"releases\": $map(versions[type='release'], function($v) {{\"version\": $v.id}})}"
+      ]
+    }
+  }
 }
