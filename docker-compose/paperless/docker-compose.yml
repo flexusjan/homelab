@@ -1,11 +1,11 @@
 services:
   broker:
-    image: redis:8.6.2@sha256:1f073813b641755b70b0200da64131bbeeb4ec5b633ca67772229b49820caafa
+    image: redis:8.6.2@sha256:d372cf7cd5ab47fb6ad1a73c45ea1104d6f3fa11cc833ff0b3ac997890b4ccec
     restart: unless-stopped
     volumes:
       - redisdata:/data
   db:
-    image: postgres:17.9@sha256:7ad98329d513dd497293b951c195ca354274a77f12ddbbbbf85e68a811823d72
+    image: postgres:17.9@sha256:7b405451d054ec04a90f1ce4d5a188b184e265e3facf671d96fe2a540e6c4532
     restart: unless-stopped
     volumes:
       - pgdata:/var/lib/postgresql/data
