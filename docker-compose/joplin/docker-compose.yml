@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16.13@sha256:5a65324fe84dc41709ff914e90b07f3e2f577073ed27bf917d4873aca0c9ec51
+    image: postgres:16.13@sha256:760ea41aae126965bedd587d35a23de37447bb13a6ac4444bef6ff73b8b72234
     volumes:
       - joplin_pgdata:/var/lib/postgresql/data
     restart: unless-stopped
@@ -9,7 +9,7 @@ services:
       - POSTGRES_USER=joplin
       - POSTGRES_DB=joplindb
   app:
-    image: joplin/server:3.5.2@sha256:5d9e7f9d31b436cb1b99d1a6a65d8c5bf760829094617e8ad1e956fd925de888
+    image: joplin/server:3.6.1@sha256:95c1badac330e53918ff3a756fccc67d1d7f65d00a4f806c6a5f79925e7f18ca
     depends_on:
       - db
     ports:
