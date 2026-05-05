@@ -19,6 +19,19 @@
       ]
     },
     {
+      "description": "Disable major updates for PostgreSQL Docker images",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "postgres"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
       "matchDatasources": [
         "docker"
       ],

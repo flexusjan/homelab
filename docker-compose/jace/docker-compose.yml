@@ -13,7 +13,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
   jace:
     image: ghcr.io/flexusjan/jace:v1.1.1@sha256:6ffb3502f0cb5909e0f4d8ebcbc8da626e50bd502a13e77b15652a67dfedaab7
     container_name: jace
@@ -41,6 +40,5 @@ services:
     ports:
       - "${APP_PORT:-8180}:${JACE_WEB_PORT:-8180}"
     command: ["web"]
-
 volumes:
   postgres18_root:
