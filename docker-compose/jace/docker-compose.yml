@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: jace-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-jace}
+      POSTGRES_USER: ${POSTGRES_USER:-jace}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in a local .env file}
+    volumes:
+      - postgres18_root:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  jace:
+    image: ghcr.io/flexusjan/jace:1.1.0
+    container_name: jace
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-jace}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-jace}
+      JACE_DEFAULT_CURRENCY: ${JACE_DEFAULT_CURRENCY:-eur}
+      JACE_WEB_HOST: ${JACE_WEB_HOST:-0.0.0.0}
+      JACE_WEB_PORT: ${JACE_WEB_PORT:-8180}
+      JACE_DARK_THEME: ${JACE_DARK_THEME:-true}
+      JACE_REFRESH_INTERVAL_SECONDS: ${JACE_REFRESH_INTERVAL_SECONDS:-3600}
+      JACE_SCRYFALL_BULK_SIZE: ${JACE_SCRYFALL_BULK_SIZE:-75}
+      JACE_SCRYFALL_REQUEST_INTERVAL_SECONDS: ${JACE_SCRYFALL_REQUEST_INTERVAL_SECONDS:-0.12}
+      JACE_SCRYFALL_COLLECTION_REQUEST_INTERVAL_SECONDS: ${JACE_SCRYFALL_COLLECTION_REQUEST_INTERVAL_SECONDS:-0.55}
+      JACE_SCRYFALL_TIMEOUT_SECONDS: ${JACE_SCRYFALL_TIMEOUT_SECONDS:-20}
+      JACE_IMAGE_FETCH_TIMEOUT_SECONDS: ${JACE_IMAGE_FETCH_TIMEOUT_SECONDS:-20}
+      JACE_AUTH_USERNAME: ${JACE_AUTH_USERNAME:-}
+      JACE_AUTH_PASSWORD: ${JACE_AUTH_PASSWORD:-}
+      JACE_MAX_REQUEST_BODY_BYTES: ${JACE_MAX_REQUEST_BODY_BYTES:-1048576}
+      JACE_MAX_IMPORT_CARDS: ${JACE_MAX_IMPORT_CARDS:-1000}
+      JACE_MAX_IMPORT_JOBS: ${JACE_MAX_IMPORT_JOBS:-4}
+      JACE_MAX_IMAGE_BYTES: ${JACE_MAX_IMAGE_BYTES:-10485760}
+    ports:
+      - "${APP_PORT:-8180}:${JACE_WEB_PORT:-8180}"
+    command: ["web"]
+
+volumes:
+  postgres18_root:
