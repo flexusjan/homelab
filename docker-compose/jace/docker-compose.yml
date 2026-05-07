@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 10
   jace:
-    image: ghcr.io/flexusjan/jace:v1.2.0
+    image: ghcr.io/flexusjan/jace:v1.2.1
     container_name: jace
     depends_on:
       db:
