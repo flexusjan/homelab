@@ -1,5 +1,6 @@
 services:
   db:
+    restart: unless-stopped
     image: postgres:18-alpine@sha256:54451ecb8ab38c24c3ec123f2fd501303a3a1856a5c66e98cecf2460d5e1e9d7
     container_name: jace-postgres
     environment:
@@ -14,6 +15,7 @@ services:
       timeout: 5s
       retries: 10
   jace:
+    restart: unless-stopped
     image: ghcr.io/flexusjan/jace:v1.2.3@sha256:9f327018703a183b9863f4efd937a451d9900a6409dcc2a0c889cbea8fe57875
     container_name: jace
     depends_on:
