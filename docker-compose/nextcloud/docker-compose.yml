@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: nextcloud:33.0.4@sha256:caa40b8beaf0057ac213d8dfc515c36ce64f7a8f0825b6a287e6f7cf2f4a095d
+    image: nextcloud:33.0.5@sha256:162b8b49def7f50d8862bf55677f86cf5649ccf7b7dfad8e244160b65ed6101a
     container_name: nextcloud
     ports:
       - "8080:80"
@@ -17,7 +17,7 @@ services:
       - db
     restart: unless-stopped
   db:
-    image: mariadb:12.2.2@sha256:6a4c4bbf0447c2247801309513fcc0dd17c3f35390368139ce419387fdd1144d
+    image: mariadb:12.3.2@sha256:b1c7bf836e64ed9406a8984af29509f40089d55cea14b32f12c4726a1f17104b
     container_name: nextcloud_db
     volumes:
       - db_data:/var/lib/mysql
