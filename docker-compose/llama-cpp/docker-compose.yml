@@ -1,0 +1,46 @@
+services:
+  llm-model-download:
+    image: alpine:3.20
+    volumes:
+      - llm_models:/models
+    environment:
+      MODEL_URL: ${MODEL_URL}
+    command: >
+      sh -c '
+        apk add --no-cache ca-certificates wget &&
+        if [ -s "/models/model.gguf" ] && [ "$(cat /models/model.url 2>/dev/null)" = "$$MODEL_URL" ]; then
+          echo "Model already exists: /models/model.gguf";
+        else
+          echo "Downloading model from $$MODEL_URL";
+          rm -f /models/model.gguf.part &&
+          wget -O /models/model.gguf.part "$$MODEL_URL" &&
+          mv /models/model.gguf.part /models/model.gguf &&
+          echo "$$MODEL_URL" > /models/model.url;
+        fi &&
+        ls -lh /models
+      '
+
+  llm-server:
+    image: ghcr.io/ggml-org/llama.cpp:server
+    restart: unless-stopped
+    depends_on:
+      llm-model-download:
+        condition: service_completed_successfully
+    ports:
+      - "9001:8080"
+    volumes:
+      - llm_models:/models:ro
+    command:
+      - "--model"
+      - "/models/model.gguf"
+      - "--alias"
+      - "${MODEL_ALIAS}"
+      - "--host"
+      - "0.0.0.0"
+      - "--ctx-size"
+      - "4096"
+      - "--parallel"
+      - "1"
+
+volumes:
+  llm_models:
