@@ -19,7 +19,7 @@ services:
         fi &&
         ls -lh /models
       '
-
+      
   llm-server:
     image: ghcr.io/ggml-org/llama.cpp:server@sha256:f415de2e2c3e61b3dfab40d7fd26136c13d342c1ae4b3ffa8657fcc6a2f43d60
     restart: unless-stopped
@@ -30,6 +30,10 @@ services:
       - "9001:8080"
     volumes:
       - llm_models:/models:ro
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - GGML_VK_VISIBLE_DEVICES=0
     command:
       - "--model"
       - "/models/model.gguf"
