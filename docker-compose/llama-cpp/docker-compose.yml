@@ -21,7 +21,7 @@ services:
       '
       
   llm-server:
-    image: ghcr.io/ggml-org/llama.cpp:server@sha256:f415de2e2c3e61b3dfab40d7fd26136c13d342c1ae4b3ffa8657fcc6a2f43d60
+    image: ghcr.io/ggml-org/llama.cpp:server-vulkan
     restart: unless-stopped
     depends_on:
       llm-model-download:
