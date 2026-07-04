@@ -43,6 +43,8 @@ services:
       - "0.0.0.0"
       - "--ctx-size"
       - "4096"
+      - "--n-gpu-layers"
+      - "999"
       - "--parallel"
       - "1"
 
