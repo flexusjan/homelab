@@ -11,7 +11,7 @@ services:
       retries: 10
       start_period: 10m
     volumes:
-      - llm_cache:/root/.cache/llama.cpp
+      - llm_cache:/root/.cache
     devices:
       - /dev/dri:/dev/dri
     environment:
