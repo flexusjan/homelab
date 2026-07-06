@@ -1,52 +1,29 @@
 services:
-  llm-model-download:
-    image: alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
-    volumes:
-      - llm_models:/models
-    environment:
-      MODEL_URL: ${MODEL_URL}
-    command: >
-      sh -c '
-        apk add --no-cache ca-certificates wget &&
-        if [ -s "/models/model.gguf" ] && [ "$(cat /models/model.url 2>/dev/null)" = "$$MODEL_URL" ]; then
-          echo "Model already exists: /models/model.gguf";
-        else
-          echo "Downloading model from $$MODEL_URL";
-          rm -f /models/model.gguf.part &&
-          wget -O /models/model.gguf.part "$$MODEL_URL" &&
-          mv /models/model.gguf.part /models/model.gguf &&
-          echo "$$MODEL_URL" > /models/model.url;
-        fi &&
-        ls -lh /models
-      '
-
   llm-server:
     image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:c463658769e2d4a0f166dbaaf1cd71bf9f4c76e85004212334028deba1ea2543
     restart: unless-stopped
-    depends_on:
-      llm-model-download:
-        condition: service_completed_successfully
     ports:
       - "9001:8080"
     volumes:
-      - llm_models:/models:ro
+      - llm_cache:/root/.cache/llama.cpp
     devices:
       - /dev/dri:/dev/dri
     environment:
       - GGML_VK_VISIBLE_DEVICES=0
+      - HF_TOKEN=${HF_TOKEN:-}
     command:
-      - "--model"
-      - "/models/model.gguf"
-      - "--alias"
-      - "${MODEL_ALIAS}"
+      - "--hf-repo"
+      - "${HF_REPO}"
+      - "--hf-file"
+      - "${HF_FILE}"
       - "--host"
       - "0.0.0.0"
       - "--port"
       - "8080"
       - "--ctx-size"
-      - "32768"
+      - "8192"
       - "--n-gpu-layers"
-      - "999"
+      - "all"
       - "--threads"
       - "8"
       - "--threads-batch"
@@ -54,7 +31,10 @@ services:
       - "--parallel"
       - "1"
       - "--n-predict"
-      - "2048"
+      - "512"
+      - "--reasoning"
+      - "off"
+      - "--metrics"
 
 volumes:
-  llm_models:
+  llm_cache:
