@@ -4,6 +4,12 @@ services:
     restart: unless-stopped
     ports:
       - "9001:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 10m
     volumes:
       - llm_cache:/root/.cache/llama.cpp
     devices:
@@ -16,8 +22,7 @@ services:
       - "${HF_REPO}"
       - "--hf-file"
       - "${HF_FILE}"
-      - "--host"
-      - "0.0.0.0"
+      - "--no-mmproj"
       - "--port"
       - "8080"
       - "--ctx-size"
