@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16.14@sha256:fe03a7605299a34ddf5e4f285dff78c3d7190a576b3c6b46f2fcff69f4bffd54
+    image: postgres:16.14@sha256:f8e2cc2a36ddb8700e639570f0bc70d0c1495951ba61df903a015dc87db07d02
     volumes:
       - joplin_pgdata:/var/lib/postgresql/data
     restart: unless-stopped
