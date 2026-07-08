@@ -9,7 +9,7 @@ services:
     environment:
       EULA: "TRUE"
       SEED: "7830518263619659759"
-      VERSION: "26.1.2"
+      VERSION: "26.2"
       MEMORY: "2048M"
       MAX_PLAYERS: "4"
       MOTD: ${MOTD}
