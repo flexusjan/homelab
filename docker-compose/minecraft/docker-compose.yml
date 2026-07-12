@@ -1,6 +1,6 @@
 services:
   mc:
-    image: itzg/minecraft-server:java25@sha256:f88c48656de974e89517235982de41eac1de8e879fa78ec480bde61ea99343e0
+    image: itzg/minecraft-server:java25@sha256:d838746d4c3c6160864023dca77c89a06afcdc6f007f58d4367bbca3917310e2
     restart: unless-stopped
     tty: true
     stdin_open: true
