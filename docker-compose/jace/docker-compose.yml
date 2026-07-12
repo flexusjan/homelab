@@ -16,7 +16,7 @@ services:
       retries: 10
   jace:
     restart: unless-stopped
-    image: ghcr.io/flexusjan/jace:v1.2.4@sha256:110b4520d81285c42b92f534d8f81b431eb5978ca531c8c2103c58f64ef8df88
+    image: ghcr.io/flexusjan/jace:v1.2.5@sha256:995917ef3436a77c150ab4ef4f971fee16a893b2c8ef945ab956d78d7610c298
     container_name: jace
     depends_on:
       db:
