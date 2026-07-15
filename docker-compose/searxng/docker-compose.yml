@@ -1,0 +1,129 @@
+name: searxng-stack
+
+services:
+  searxng-config-init:
+    image: busybox:1.37
+    container_name: searxng-config-init
+    restart: "no"
+    volumes:
+      - searxng-config:/etc/searxng
+    environment:
+      SEARXNG_SECRET: "${SEARXNG_SECRET:?SEARXNG_SECRET must be set}"
+      SEARXNG_BASE_URL: "${SEARXNG_BASE_URL:?SEARXNG_BASE_URL must be set}"
+    command:
+      - sh
+      - -c
+      - |
+        if [ -z "$$SEARXNG_SECRET" ]; then
+          echo "ERROR: SEARXNG_SECRET is not set"
+          exit 1
+        fi
+
+        if [ -z "$$SEARXNG_BASE_URL" ]; then
+          echo "ERROR: SEARXNG_BASE_URL is not set"
+          exit 1
+        fi
+
+        cat > /etc/searxng/settings.yml <<EOF
+        use_default_settings: true
+
+        server:
+          bind_address: "0.0.0.0"
+          port: 8080
+          secret_key: "$$SEARXNG_SECRET"
+          base_url: "$$SEARXNG_BASE_URL"
+          limiter: false
+          public_instance: false
+
+        search:
+          safe_search: 0
+          autocomplete: ""
+          default_lang: "auto"
+          formats:
+            - html
+            - json
+
+        valkey:
+          url: valkey://valkey:6379/0
+
+        engines:
+          - name: ahmia
+            disabled: true
+
+          - name: torch
+            disabled: true
+
+          - name: wikidata
+            disabled: true
+
+          - name: brave
+            disabled: true
+        EOF
+
+  valkey:
+    image: docker.io/valkey/valkey:8-alpine
+    container_name: searxng-valkey
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - |
+        rm -f /data/dump.rdb
+        exec valkey-server --save "" --appendonly no --loglevel warning
+    volumes:
+      - valkey-data:/data
+
+  searxng:
+    image: docker.io/searxng/searxng:latest
+    container_name: searxng-core
+    restart: unless-stopped
+    depends_on:
+      searxng-config-init:
+        condition: service_completed_successfully
+      valkey:
+        condition: service_started
+    ports:
+      - "8003:8080"
+    volumes:
+      - searxng-config:/etc/searxng
+      - searxng-cache:/var/cache/searxng
+    environment:
+      SEARXNG_BASE_URL: "${SEARXNG_BASE_URL:?SEARXNG_BASE_URL must be set}"
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  mcp-searxng:
+    image: docker.io/isokoliuk/mcp-searxng:latest
+    container_name: searxng-mcp
+    restart: unless-stopped
+    depends_on:
+      searxng:
+        condition: service_healthy
+    environment:
+      SEARXNG_URL: "http://searxng:8080"
+      MCP_HTTP_PORT: "3000"
+      HOST: "0.0.0.0"
+      MCP_HTTP_HOST: "0.0.0.0"
+    ports:
+      - "8005:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  searxng-config:
+  searxng-cache:
+  valkey-data:
