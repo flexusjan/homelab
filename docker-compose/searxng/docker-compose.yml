@@ -74,7 +74,7 @@ services:
       - valkey-data:/data
 
   searxng:
-    image: docker.io/searxng/searxng:latest@sha256:af9aec5c8fe88767106e8043004a1232d43cabde22869e6355f3a63d26e41351
+    image: docker.io/searxng/searxng:latest@sha256:04ddbd037d72775540527eb41f03f0cb30827bc69b91b2fe209346bf7d330179
     container_name: searxng-core
     restart: unless-stopped
     depends_on:
