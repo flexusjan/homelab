@@ -61,7 +61,7 @@ services:
         EOF
 
   valkey:
-    image: docker.io/valkey/valkey:9-alpine@sha256:c9b77919daeba2c02ad954d0c844cc4e7142069d177b89c5fd771f405daf9e02
+    image: docker.io/valkey/valkey:9-alpine@sha256:ee91f7a174ac4d6a6b0685b3a60e321f0a9dbbb691f9b0e285be2ba1d1be8328
     container_name: searxng-valkey
     restart: unless-stopped
     command:
@@ -74,7 +74,7 @@ services:
       - valkey-data:/data
 
   searxng:
-    image: docker.io/searxng/searxng:latest@sha256:b8ca38ba06eea544d7555e88321e212ddc0d5c3c7de055419cfb2e5c6bf30812
+    image: docker.io/searxng/searxng:latest@sha256:d0aaeb14880e6e92bde1518fcc7261e995783367d63d95203383607bef9c6516
     container_name: searxng-core
     restart: unless-stopped
     depends_on:
@@ -103,7 +103,7 @@ services:
       start_period: 20s
 
   mcp-searxng:
-    image: docker.io/isokoliuk/mcp-searxng:latest@sha256:b6727fc950cf1a7501d70f863b563d9fc689d6e33c773296ed845070c5646b48
+    image: docker.io/isokoliuk/mcp-searxng:latest@sha256:731664897bd460d4b0fe8a8901cd73aa3a9493ada03567ab442842fe0f8ab0f8
     container_name: searxng-mcp
     restart: unless-stopped
     depends_on:
