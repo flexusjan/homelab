@@ -22,7 +22,6 @@ services:
       - "${HF_REPO}"
       - "--hf-file"
       - "${HF_FILE}"
-      - "--no-mmproj"
       - "--port"
       - "8080"
       - "--ctx-size"
