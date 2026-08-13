@@ -5,23 +5,23 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     ports:
-      - "8211:8211/udp"
-      - "27015:27015/udp"
+      - "${PORT:?Set PORT in Portainer}:${PORT:?Set PORT in Portainer}/udp"
+      - "${QUERY_PORT:?Set QUERY_PORT in Portainer}:${QUERY_PORT:?Set QUERY_PORT in Portainer}/udp"
     environment:
       PUID: "1000"
       PGID: "1000"
-      TZ: "Europe/Berlin"
-      PORT: "8211"
-      QUERY_PORT: "27015"
+      TZ: ${TZ:?Set TZ in Portainer}
+      PORT: ${PORT:?Set PORT in Portainer}
+      QUERY_PORT: ${QUERY_PORT:?Set QUERY_PORT in Portainer}
       PLAYERS: "16"
       SERVER_PASSWORD: ${SERVER_PASSWORD:?Set SERVER_PASSWORD in Portainer}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in Portainer}
-      SERVER_NAME: "Schinken Pizza"
-      SERVER_DESCRIPTION: "Pals, Pizza und fragwürdige Arbeitsbedingungen - Schinken inklusive."
-      COMMUNITY: "true"
-      CROSSPLAY_PLATFORMS: "(Steam,Xbox,PS5,Mac)"
+      SERVER_NAME: ${SERVER_NAME:?Set SERVER_NAME in Portainer}
+      SERVER_DESCRIPTION: ${SERVER_DESCRIPTION:?Set SERVER_DESCRIPTION in Portainer}
+      COMMUNITY: ${COMMUNITY:?Set COMMUNITY in Portainer}
+      CROSSPLAY_PLATFORMS: ${CROSSPLAY_PLATFORMS:?Set CROSSPLAY_PLATFORMS in Portainer}
       REST_API_ENABLED: "true"
-      REST_API_PORT: "8212"
+      REST_API_PORT: ${REST_API_PORT:?Set REST_API_PORT in Portainer}
     volumes:
       - palworld_data:/palworld
 
