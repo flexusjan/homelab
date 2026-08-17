@@ -28,7 +28,9 @@ services:
       - ./consume:/usr/src/paperless/consume
     environment:
       PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBENGINE: postgresql
       PAPERLESS_DBHOST: db
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY:?Set PAPERLESS_SECRET_KEY}
       PAPERLESS_URL: ${PAPERLESS_URL}
 volumes:
   data:
