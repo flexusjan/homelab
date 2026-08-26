@@ -2,9 +2,6 @@ services:
   llm-server:
     image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:003fba3374b3452e5832524f82b29aa48767c1f598311aa8a0cf55075a4314a6
     restart: unless-stopped
-    # AE8/Radeon 780M uses UMA; this is the shared CPU+iGPU RAM budget.
-    mem_limit: 16g
-    memswap_limit: 16g
     ports:
       - "9001:8080"
     healthcheck:
