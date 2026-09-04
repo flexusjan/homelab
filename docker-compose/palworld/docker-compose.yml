@@ -1,6 +1,6 @@
 services:
   palworld:
-    image: thijsvanloef/palworld-server-docker:latest@sha256:39059e157ea5148f7c4f66c2913c9e844fd62b9fd9de1e7200de8bb4d9bd7a8f
+    image: thijsvanloef/palworld-server-docker:latest@sha256:be3ad49e373045a7b60478fd8b7f7411c1e293713dfa4733e563e798f276d688
     container_name: palworld-server
     restart: unless-stopped
     stop_grace_period: 30s
