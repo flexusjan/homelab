@@ -1,6 +1,6 @@
 services:
   llm-server:
-    image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:c4643056a4e827af25cc92f988a57e73e6080ba8759aff2c7d01bd532634e0c8
+    image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:063e88aef1c168cf4a0a4b3a7983604561f96870a3c4953bd1fad908b4e41716
     restart: unless-stopped
     ports:
       - "9001:8080"
