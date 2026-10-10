@@ -103,7 +103,7 @@ services:
       start_period: 20s
 
   mcp-searxng:
-    image: docker.io/isokoliuk/mcp-searxng:latest@sha256:380eee8e96dd1b5299cae3986064bf6fe63e0ad8f648493b3015d99263222c2a
+    image: docker.io/isokoliuk/mcp-searxng:latest@sha256:47c2c520c06b396b89d34bda8a4cd5961e04e4d35c59b931f63d617be45245b5
     container_name: searxng-mcp
     restart: unless-stopped
     depends_on:
