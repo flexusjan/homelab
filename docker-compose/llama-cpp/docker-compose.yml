@@ -46,7 +46,6 @@ services:
       - "8"
       - "--threads-batch"
       - "16"
-      # Zwei Slots teilen 32768 Kontexttokens: 16384 pro Anfrage.
       - "--parallel"
       - "2"
       - "--cont-batching"
@@ -54,7 +53,6 @@ services:
       - "on"
       - "--n-predict"
       - "512"
-      # Sampling-Empfehlung fuer HauhauCS Gemma4-12B Balanced.
       - "--temp"
       - "0.6"
       - "--top-k"
