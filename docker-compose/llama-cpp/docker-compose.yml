@@ -64,6 +64,7 @@ services:
       - "--reasoning"
       - "off"
       - "--metrics"
+      - "--ui-mcp-proxy"
 
 volumes:
   llm_cache:
