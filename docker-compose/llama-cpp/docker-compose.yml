@@ -17,6 +17,7 @@ services:
     environment:
       - GGML_VK_VISIBLE_DEVICES=0
       - HF_TOKEN=${HF_TOKEN:-}
+      - LLAMA_ARG_MMPROJ_URL=${HF_MMPROJ_URL:-}
     command:
       - "--hf-repo"
       - "${HF_REPO}"
@@ -39,8 +40,9 @@ services:
       - "8"
       - "--threads-batch"
       - "16"
+      # Zwei Slots teilen 32768 Kontexttokens: 16384 pro Anfrage.
       - "--parallel"
-      - "4"
+      - "2"
       - "--cont-batching"
       - "--flash-attn"
       - "auto"
