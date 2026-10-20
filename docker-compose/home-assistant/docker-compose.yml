@@ -5,10 +5,19 @@ services:
     restart: unless-stopped
     stop_grace_period: 60s
     network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     environment:
       TZ: Europe/Berlin
     volumes:
       - homeassistant_config:/config
+      - type: bind
+        source: /run/ha-bluetooth
+        target: /run/dbus
+        read_only: true
+        bind:
+          create_host_path: false
 
 volumes:
   homeassistant_config:
