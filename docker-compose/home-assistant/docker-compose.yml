@@ -1,0 +1,14 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:2026.10.2@sha256:33afb0659d786213264c2211f8d91c5fe87461c56eba6a3a546eb05fc71e89f4
+    container_name: homeassistant
+    restart: unless-stopped
+    stop_grace_period: 60s
+    network_mode: host
+    environment:
+      TZ: Europe/Berlin
+    volumes:
+      - homeassistant_config:/config
+
+volumes:
+  homeassistant_config:
