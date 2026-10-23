@@ -17,7 +17,7 @@ concurrency:
 jobs:
   validate:
     name: Validate updates
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     steps:
       - name: Check out the proposed changes
