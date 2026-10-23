@@ -1,0 +1,49 @@
+name: Validate homelab
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate updates
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out the proposed changes
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js for Renovate
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+
+      - name: Install the registry metadata client
+        run: |
+          curl --fail --silent --show-error --location --retry 3 --max-time 60 \
+            https://github.com/regclient/regclient/releases/download/v0.11.7/regctl-linux-amd64 \
+            --output "$RUNNER_TEMP/regctl"
+          echo "3737fbbdd791e04e7a831640b681f3397a376498e80e2ad9b1b2d27296f239bc  $RUNNER_TEMP/regctl" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/regctl"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Test the validation failure cases
+        run: python3 -m unittest discover -s tests -v
+
+      - name: Validate Renovate configuration
+        run: npx --yes --package renovate@44.178.3 -- renovate-config-validator --strict --no-global renovate.json
+
+      - name: Validate Compose files and registry images
+        run: python3 scripts/validate_stacks.py
