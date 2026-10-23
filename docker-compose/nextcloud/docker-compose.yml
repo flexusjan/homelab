@@ -1,6 +1,6 @@
 services:
   nextcloud:
-    image: nextcloud:35.0.2@sha256:301e07b7f661c122752cc2c01b76f15036a156f2b6d794c76621b7d0a6bb8a50
+    image: nextcloud:35.0.2@sha256:d7388e1ba06a17daf9ca02760be1c07ef49b7c8e078651b5b2c566d1fab538fe
     container_name: nextcloud
     ports:
       - "8080:80"
