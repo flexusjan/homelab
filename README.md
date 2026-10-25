@@ -1,41 +1,27 @@
 # Homelab
 
-Docker Compose stacks deployed through Portainer. Runtime variables and secrets
-are configured in Portainer, not committed to this repository.
+Docker Compose stacks for my self-hosted services, managed through Portainer.
+Each service has its own directory under [`docker-compose/`](docker-compose/).
 
-## Update validation
+## Services
 
-The **Validate updates** GitHub Actions check runs on every pull request, on
-changes to `main`, and for merge queues. It validates:
+| Service | Purpose |
+| --- | --- |
+| [Portainer](docker-compose/portainer/docker-compose.yml) | Container and stack management |
+| [Nginx Proxy Manager](docker-compose/npm/docker-compose.yml) | Reverse proxy and TLS certificates |
+| [Homepage](docker-compose/homepage/docker-compose.yml) | Homelab dashboard |
+| [Pi-hole](docker-compose/pihole/docker-compose.yml) | Network-wide DNS filtering |
+| [Home Assistant](docker-compose/home-assistant/docker-compose.yml) | Smart home automation |
+| [Nextcloud](docker-compose/nextcloud/docker-compose.yml) | Private cloud and file sync |
+| [Joplin Server](docker-compose/joplin/docker-compose.yml) | Note sync across devices |
+| [Paperless-ngx](docker-compose/paperless/docker-compose.yml) | Document archive with OCR |
+| [Jace](docker-compose/jace/docker-compose.yml) | Magic: The Gathering collection and price tracking |
+| [llama.cpp](docker-compose/llama-cpp/docker-compose.yml) | Local language model inference |
+| [SearXNG](docker-compose/searxng/docker-compose.yml) | Web search with MCP access for AI clients |
+| [Minecraft](docker-compose/minecraft/docker-compose.yml) | Minecraft Java server |
 
-- `renovate.json` with the pinned Renovate configuration validator;
-- every tracked Compose stack using `docker compose config`;
-- availability of each exact image reference and its `linux/amd64` manifest.
+## Updates
 
-The check reads registry metadata only. It does not pull image layers, start
-containers, connect to Proxmox, or deploy anything. Required Portainer variables
-remain unexpanded, and local `.env` / service environment files are not loaded.
-
-Run the checks locally with Python 3, Docker CLI / Compose, Node.js 24, and
-[regctl](https://regclient.org/cli/regctl/image/inspect/). CI pins regctl to 0.11.7
-and verifies its download checksum:
-
-```sh
-python3 -m unittest discover -s tests -v
-python3 scripts/validate_stacks.py --compose-only
-npx --yes --package renovate@44.178.3 -- renovate-config-validator --strict --no-global renovate.json
-python3 scripts/validate_stacks.py
-```
-
-Registry checks require network access. Images must be anonymously readable or
-regctl must already be authenticated to the registry. Registry errors
-fail the check; they are not silently skipped.
-
-Require **Validate updates** in the protection rules for `main` before relying
-on this check to gate merges. Portainer polling deploys changes after they reach
-`main`; a check on a push cannot prevent that deployment.
-
-These checks do not prove application compatibility, validate secret values,
-test database migrations, or scan images for vulnerabilities. Major upgrades
-still need review and stateful services still need restorable backups. Automerge
-is not enabled by this workflow.
+Images are pinned to release or build tags and SHA-256 digests.
+[Renovate](renovate.json) automatically merges patch and digest updates after
+checks pass. Minor and major updates are reviewed manually.

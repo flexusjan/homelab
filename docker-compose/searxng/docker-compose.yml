@@ -2,7 +2,7 @@ name: searxng-stack
 
 services:
   searxng-config-init:
-    image: busybox:1.38@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
+    image: busybox:1.38.0@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e
     container_name: searxng-config-init
     restart: "no"
     volumes:
@@ -61,7 +61,7 @@ services:
         EOF
 
   valkey:
-    image: docker.io/valkey/valkey:9-alpine@sha256:48332870af354a799964c0012ae1194a0bf2bf894eb508f945810596dc2d8d11
+    image: docker.io/valkey/valkey:9.1.2-alpine@sha256:48332870af354a799964c0012ae1194a0bf2bf894eb508f945810596dc2d8d11
     container_name: searxng-valkey
     restart: unless-stopped
     command:
@@ -74,7 +74,7 @@ services:
       - valkey-data:/data
 
   searxng:
-    image: docker.io/searxng/searxng:latest@sha256:a31763b7af3caf6ae9aac1816ba774214eb550252e06a4998f276ded8d60461b
+    image: docker.io/searxng/searxng:2026.9.16-461f174b0@sha256:a31763b7af3caf6ae9aac1816ba774214eb550252e06a4998f276ded8d60461b
     container_name: searxng-core
     restart: unless-stopped
     depends_on:
@@ -103,7 +103,7 @@ services:
       start_period: 20s
 
   mcp-searxng:
-    image: docker.io/isokoliuk/mcp-searxng:latest@sha256:c018ec75ab6613d3bddd75add274049bbad9dc178fc6c4c35817db227398c100
+    image: docker.io/isokoliuk/mcp-searxng:2.7.0@sha256:c018ec75ab6613d3bddd75add274049bbad9dc178fc6c4c35817db227398c100
     container_name: searxng-mcp
     restart: unless-stopped
     depends_on:

@@ -6,14 +6,32 @@
   ],
   "dependencyDashboard": true,
   "prConcurrentLimit": 5,
+  "platformAutomerge": false,
+  "separateMinorPatch": true,
   "packageRules": [
+    {
+      "description": "Automerge patch releases and digest updates after checks pass",
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "automerge": true
+    },
     {
       "matchDatasources": [
         "docker"
       ],
-      "groupName": "docker non-major",
+      "groupName": "docker minor",
       "matchUpdateTypes": [
-        "minor",
+        "minor"
+      ]
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "groupName": "docker patch and digest",
+      "matchUpdateTypes": [
         "patch",
         "digest"
       ]
@@ -51,13 +69,25 @@
       "dependencyDashboardApproval": true
     },
     {
+      "description": "Compare SearXNG release dates without treating commit hashes as image variants",
       "matchDatasources": [
         "docker"
       ],
       "matchPackageNames": [
-        "itzg/minecraft-server"
+        "searxng/searxng",
+        "docker.io/searxng/searxng"
       ],
-      "versioning": "regex:^(?<compatibility>java)(?<major>\\d+)$"
+      "versioning": "regex:^(?<major>\\d{4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d{1,2})-[a-f0-9]+$"
+    },
+    {
+      "description": "Keep the llama.cpp Vulkan variant and require review for new build numbers",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/ggml-org/llama.cpp"
+      ],
+      "versioning": "regex:^(?<compatibility>server-vulkan)-b(?<major>\\d+)$"
     }
   ],
   "customManagers": [
