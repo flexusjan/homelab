@@ -30,7 +30,7 @@ services:
       - "--spec-type"
       - "draft-mtp"
       - "--ctx-size"
-      - "65536"
+      - "16384"
       - "--cache-type-k"
       - "q8_0"
       - "--cache-type-v"
