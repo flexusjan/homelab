@@ -1,0 +1,55 @@
+services:
+  mqtt:
+    image: eclipse-mosquitto:2.0.22@sha256:81a6193ae693942a3231cd3ac52875b02b7e3a19da671b2fb4b55cc874c5b279
+    restart: unless-stopped
+    command:
+      - sh
+      - -ec
+      - |
+        printf 'listener 1883\nallow_anonymous true\n' > /mosquitto/config/mosquitto.conf
+        exec mosquitto -c /mosquitto/config/mosquitto.conf
+    ports:
+      - "127.0.0.1:1883:1883"
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "127.0.0.1", "-t", "homelab/health", "-m", "healthy", "-q", "1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  danfoss:
+    image: eclipse-temurin:21.0.13_9-jre-noble@sha256:0eda5830ed7b669abc246a8dc520ea8a23cab06f9a8d4b6964109e2f2394e46f
+    restart: unless-stopped
+    depends_on:
+      mqtt:
+        condition: service_healthy
+    environment:
+      DANFOSS_VERSION: "v0.4.11"
+    working_dir: /share/danfoss-icon
+    command:
+      - sh
+      - -ec
+      - |
+        mkdir -p /data
+        curl -fsSL --retry 3 "https://github.com/soundvibe/ha-danfoss/releases/download/$${DANFOSS_VERSION}/ha-danfoss-addon.jar" -o /tmp/app.jar
+        cat > /data/options.json <<'EOF'
+        {
+          "haUpdatePeriodInSeconds": 60,
+          "sensorNameFmt": "sensor.danfoss_%d_temperature",
+          "port": 9199,
+          "mqttEnabled": true,
+          "mqttHost": "mqtt",
+          "mqttPort": 1883,
+          "mqttKeepAlive": 60,
+          "mqttUsername": "",
+          "mqttPassword": "",
+          "logLevel": "info"
+        }
+        EOF
+        exec java --enable-preview -jar /tmp/app.jar
+    ports:
+      - "9199:9199"
+    volumes:
+      - danfoss_data:/share/danfoss-icon
+
+volumes:
+  danfoss_data:

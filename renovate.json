@@ -94,6 +94,17 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
+        "docker-compose/ha-danfoss/docker-compose.yml"
+      ],
+      "matchStrings": [
+        "DANFOSS_VERSION:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "soundvibe/ha-danfoss",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
         "/(^|/)(docker-)?compose\\.ya?ml$/"
       ],
       "matchStrings": [
