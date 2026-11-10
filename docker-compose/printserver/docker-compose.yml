@@ -1,0 +1,14 @@
+services:
+  printserver:
+    image: ghcr.io/openprinting/ghostscript-printer-app:latest@sha256:b8c3f57c637d7b3044477c9340df5a0b86b9fc7badd7d7ab05d816e43ca3c6b5
+    container_name: printserver
+    hostname: printserver
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PORT: "8631"
+    volumes:
+      - printserver_data:/var/lib/ghostscript-printer-app
+
+volumes:
+  printserver_data:
