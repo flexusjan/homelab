@@ -1,6 +1,6 @@
 services:
   app:
-    image: jc21/nginx-proxy-manager:2.16.0@sha256:4393e642e233e5efd5adeb7f10918d4aaea71c9ed875b94190273fc8e87f9594
+    image: jc21/nginx-proxy-manager:2.17.0@sha256:9cdfebbcbb6a70b84c538e6e39862c5d627171e5f4ea4bfda933f7643e3640a4
     restart: unless-stopped
     ports:
       - '80:80'
@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:17.11@sha256:ff87138949ad9a46f32ff23bd6852b52ce024a13dffe9b4087be98292cdd3b4f
+    image: postgres:17.12@sha256:dbb9623d5121b5d2c2c9e2fba56e40193cbb3510d4af7f035b1ab1823aff3205
     restart: unless-stopped
     environment:
       POSTGRES_USER: 'npm'
