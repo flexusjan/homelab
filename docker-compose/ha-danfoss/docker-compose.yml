@@ -23,7 +23,7 @@ services:
       mqtt:
         condition: service_healthy
     environment:
-      DANFOSS_VERSION: "v0.4.11"
+      DANFOSS_VERSION: "v4.0.3"
     working_dir: /share/danfoss-icon
     command:
       - sh
