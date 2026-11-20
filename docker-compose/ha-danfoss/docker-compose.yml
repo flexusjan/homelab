@@ -17,7 +17,7 @@ services:
       retries: 5
 
   danfoss:
-    image: eclipse-temurin:21.0.13_9-jre-noble@sha256:0d57a8e90c2bb844c5a8e1b2b71e11eff06dad7edcfd803cd21ed4ae203b2515
+    image: eclipse-temurin:21.0.13_9-jre-noble@sha256:b4f9d2a0bc273417cf5219b7b832bbf0493ed500b7b57d5001d9f83374659060
     restart: unless-stopped
     depends_on:
       mqtt:
