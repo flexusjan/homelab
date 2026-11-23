@@ -33,7 +33,7 @@ services:
       - "--parallel"
       - "1"
       - "--temp"
-      - "0.1"
+      - "-0.5"
       - "--top-k"
       - "50"
       - "--top-p"
@@ -47,7 +47,7 @@ services:
       - "on"
       - "--no-reasoning-preserve"
       - "--reasoning-budget"
-      - "${LFM_THINK_BUDGET:-256}"
+      - "1024"
 
 volumes:
   llm_cache:
