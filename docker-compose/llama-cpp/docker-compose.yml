@@ -1,6 +1,6 @@
 services:
   llm-server:
-    image: ghcr.io/ggml-org/llama.cpp:server-vulkan-b11870@sha256:3b3ef9c6d012ebef5d27cce38bf3160bea67148514da6ac2d31052d4e0ebd447
+    image: ghcr.io/ggml-org/llama.cpp:server-vulkan-b12648@sha256:298c82bf50830ab711a75a6945fb9a8ffad3972f789d434d32a3c5b0f695e4b0
     restart: unless-stopped
     ports:
       - "9001:8080"
@@ -17,46 +17,37 @@ services:
     environment:
       - GGML_VK_VISIBLE_DEVICES=0
       - HF_TOKEN=${HF_TOKEN:-}
-      - LLAMA_ARG_MMPROJ_URL=${HF_MMPROJ_URL:-}
     command:
-      - "--hf-repo"
-      - "${HF_REPO}"
-      - "--hf-file"
-      - "${HF_FILE}"
-      - "--hf-repo-draft"
-      - "${HF_DRAFT_REPO:?Set HF_DRAFT_REPO in Portainer}"
-      - "--model-draft"
-      - "${HF_DRAFT_FILE:?Set HF_DRAFT_FILE in Portainer}"
-      - "--spec-type"
-      - "draft-mtp"
+      - "--model-url"
+      - "https://huggingface.co/saidutta69/LFM3-VL-2B-heretic/resolve/f4cf2cfb5b1289ca4ca10c6c71eb17d147c8c795/LFM3-VL-2B-heretic-Q6_K.gguf"
+      - "--mmproj-url"
+      - "https://huggingface.co/saidutta69/LFM3-VL-2B-heretic/resolve/f4cf2cfb5b1289ca4ca10c6c71eb17d147c8c795/LFM3-VL-2B-heretic-mmproj-F16.gguf"
       - "--ctx-size"
       - "16384"
-      - "--cache-type-k"
-      - "q8_0"
-      - "--cache-type-v"
-      - "q8_0"
       - "--cache-ram"
       - "0"
       - "--n-gpu-layers"
       - "all"
-      - "--flash-attn"
-      - "on"
       - "--threads"
       - "8"
       - "--parallel"
       - "1"
       - "--temp"
-      - "0.6"
+      - "0.1"
       - "--top-k"
-      - "64"
+      - "50"
       - "--top-p"
-      - "0.9"
+      - "1.0"
+      - "--min-p"
+      - "0.0"
       - "--repeat-penalty"
       - "1.1"
       - "--metrics"
-      - "--ui-mcp-proxy"
       - "--reasoning"
-      - "off"
+      - "on"
+      - "--no-reasoning-preserve"
+      - "--reasoning-budget"
+      - "${LFM_THINK_BUDGET:-256}"
 
 volumes:
   llm_cache:
