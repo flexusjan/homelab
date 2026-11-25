@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:17.12@sha256:223efeb196329b55b3b9a13db144956411dbc18e727e59f681c3e0aede6475cf
+    image: postgres:17.12@sha256:87c8b42f423b45d5247e6aa8fdb2e7762fec164c68a50fe3eb07e7bfcaf4dbcf
     restart: unless-stopped
     environment:
       POSTGRES_USER: 'npm'
